@@ -2,11 +2,38 @@ const track = document.getElementById('track');
 const prev = document.getElementById('prev');
 const next = document.getElementById('next');
 const dots = document.getElementById('dots');
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
 
 let index = 0;
 
+// Mobile hamburger menu
+if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('open');
+        menuToggle.classList.toggle('open', isOpen);
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    navLinks.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            menuToggle.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+        });
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 850) {
+            navLinks.classList.remove('open');
+            menuToggle.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
+
 function visible() {
-    return window.innerWidth <= 800 ? 1 : 3;
+    return window.innerWidth <= 850 ? 2 : 3;
 }
 
 function maxIndex() {
